@@ -1,14 +1,16 @@
 from flask import Flask
-
+import jinja2
 from flask_sqlalchemy import SQLAlchemy
 
 import requests
 
-APP = Flask(__name__)
 
-APP.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+def create_app():
+    APP = Flask(__name__)
 
-DB = SQLAlchemy(APP)
+    APP.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+
+    DB.__init(app)
 
 @APP.route('/')
 
@@ -19,7 +21,7 @@ def root():
         list_of_tuples.append(("DUMMY AIRBNB", 1000000.00))
     
     return str(list_of_tuples)
-  
+
 class Airbnb(DB.Model):
     id = DB.Column(DB.Integer, primary_key=True)
     name = DB.Column(DB.String(25))
