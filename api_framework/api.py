@@ -1,7 +1,10 @@
-from flask import Flask
+from flask import Flask, render_template, request
 import jinja2
 from flask_sqlalchemy import SQLAlchemy
-
+from .models import DB
+from os import getenv
+from .predict import predict_price
+# from .airbnb import 
 import requests
 
 
