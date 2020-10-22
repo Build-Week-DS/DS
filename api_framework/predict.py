@@ -8,4 +8,4 @@ def predict_price(airbnb):
     """
     determines the price for a given airbnb
     """
-    pass
+    
