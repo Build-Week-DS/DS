@@ -6,7 +6,7 @@ import pandas as pd
 
 APP = Flask(__name__)
 
-with open("../marcos_model.joblib", "rb") as file:
+with open("../data/marcos_model.joblib", "rb") as file:
     model = load(file)
 
 sfairbnb_df = pd.read_csv("../data/cleaned_data.csv")
