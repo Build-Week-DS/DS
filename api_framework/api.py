@@ -15,7 +15,7 @@ sfairbnb_df = sfairbnb_df.drop(columns='Unnamed: 0', axis=1)
 @APP.route('/')
 
 def root():
-    return str(model.predict(sfairbnb_df.iloc[[:10]]))
+    return str(model.predict(sfairbnb_df.iloc[:10]))
     
 @APP.route('/about')
 
