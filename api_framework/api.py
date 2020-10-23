@@ -1,39 +1,26 @@
 from flask import Flask
 
-from flask_sqlalchemy import SQLAlchemy
+from joblib import load
 
-import requests
+import pandas as pd
 
 APP = Flask(__name__)
 
-APP.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+with open("../marcos_model.joblib", "rb") as file:
+    model = load(file)
 
-DB = SQLAlchemy(APP)
-
+sfairbnb_df = pd.read_csv("../data/cleaned_data.csv")
+sfairbnb_df = sfairbnb_df.drop(columns='Unnamed: 0', axis=1)
+        
 @APP.route('/')
 
 def root():
-    list_of_tuples = []
-
-    for i in range(0, 10):
-        list_of_tuples.append(("DUMMY AIRBNB", 1000000.00))
+    return str(model.predict(sfairbnb_df.iloc[[:10]]))
     
-    return str(list_of_tuples)
-  
-class Airbnb(DB.Model):
-    id = DB.Column(DB.Integer, primary_key=True)
-    name = DB.Column(DB.String(25))
-    predicted_price = DB.Column(DB.Float)
+@APP.route('/about')
 
-    def __repr__(self):
-        return f'< Name {self.name} --- Value {self.predicted_price} >'
-
-@APP.route('/refresh')
-def refresh():
-    DB.drop_all()
-    DB.create_all()
-    DB.session.commit()
-    return 'Data refreshed!'
-
+def about_page():
+    return "Dataset selected and first model created in notebook by Bryce Natale and Erle Granger. Model tuned by Marcos Morales. API supplied by Eli Fulton."
+    
 if __name__ == '__main__':
      APP.run()
